@@ -12,6 +12,6 @@ public class SoldierFactory {
 
 	public void setSoldier(Soldier soldier) {
 		this.soldier = soldier;
-	} 
+	}
 	
 }
