@@ -1,5 +1,6 @@
 package model;
 
+import controller.SoldierTypes;
 import interfaces.Soldier;
 
 public class FootMan implements Soldier{
@@ -11,6 +12,11 @@ public class FootMan implements Soldier{
 	@Override
 	public int getSoldierStrength() {
 		return 1;
+	}
+
+	@Override
+	public SoldierTypes getSoldierType() {
+		return SoldierTypes.footman;
 	}
 
 }

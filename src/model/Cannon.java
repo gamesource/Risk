@@ -1,5 +1,6 @@
 package model;
 
+import controller.SoldierTypes;
 import interfaces.Soldier;
 
 public class Cannon implements Soldier {
@@ -10,8 +11,12 @@ public class Cannon implements Soldier {
 	
 	@Override
 	public int getSoldierStrength() {
-		// TODO Auto-generated method stub
 		return 10;
+	}
+
+	@Override
+	public SoldierTypes getSoldierType() {
+		return SoldierTypes.cannon;
 	}
 
 }

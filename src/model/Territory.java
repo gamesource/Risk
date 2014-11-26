@@ -4,17 +4,19 @@ import interfaces.Soldier;
 
 import java.util.ArrayList;
 
+import controller.TerritoryNames;
+
 public class Territory {
 	
-	private String name;
+	private TerritoryNames name;
 	private ArrayList<Soldier> soldiers;
 	
-	public Territory(String name) {
+	public Territory(TerritoryNames name) {
 		this.name = name;
 		soldiers = new ArrayList<Soldier>();
 	}
 	
-	public String getName() {
+	public TerritoryNames getName() {
 		return name;
 	}
 	
