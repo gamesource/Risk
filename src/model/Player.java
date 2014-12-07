@@ -35,8 +35,17 @@ public class Player {
 	
 	public void roll()
 	{
-		int randomNumber = (int) (1 + Math.random() * 5) ; 
-		dices.add(new Dice(randomNumber));
+		for(Dice dice : dices) {
+			dice.roll();
+		}
+	}
+	
+	public boolean addDice(Dice dice) {
+		return dices.add(dice);
+	}
+	
+	public ArrayList<Dice> getDices() {
+		return dices;
 	}
 	
 	public ArrayList<Territory> getTerritories() {
