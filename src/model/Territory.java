@@ -10,10 +10,12 @@ public class Territory {
 	
 	private TerritoryNames name;
 	private ArrayList<Soldier> soldiers;
+	private ArrayList<Territory> neighbours;
 	
 	public Territory(TerritoryNames name) {
 		this.name = name;
 		soldiers = new ArrayList<Soldier>();
+		neighbours = new ArrayList<Territory>();
 	}
 	
 	public TerritoryNames getName() {
@@ -28,6 +30,7 @@ public class Territory {
 		return soldiers.remove(soldier);
 	}
 	
+	//it needs to remove soldier from territory
 	public Soldier getSoldierWithStrength(int strength) {
 		for(Soldier soldier : soldiers) {
 			if(soldier.getSoldierStrength() == strength) {
@@ -39,5 +42,13 @@ public class Territory {
 	
 	public ArrayList<Soldier> getSoldierList() {
 		return soldiers;
+	}
+	
+	public ArrayList<Territory> getNeighbours() {
+		return neighbours;
+	}
+	
+	public boolean addNeighbour(Territory neighbour) {
+		return neighbours.add(neighbour);
 	}
 }
