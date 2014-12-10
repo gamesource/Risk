@@ -2,17 +2,19 @@ package model;
 
 import java.util.ArrayList;
 
+import controller.ContinentNames;
+
 public class Continent {
 
-	private String name;
+	private ContinentNames name;
 	private ArrayList<Territory> territories;
 	
-	public Continent(String name) {
+	public Continent(ContinentNames name) {
 		this.name = name;
 		territories = new ArrayList<Territory>();
 	}
 	
-	public String getName() {
+	public ContinentNames getName() {
 		return name;
 	}
 	
