@@ -16,8 +16,8 @@ public class Continent {
 		return name;
 	}
 	
-	public boolean addTerritory(Territory territory) {
-		return territories.add(territory);
+	public void addTerritories(ArrayList<Territory> territories) {
+		this.territories = territories ;
 	}
 	
 	public ArrayList<Territory> getTerritoryList() {

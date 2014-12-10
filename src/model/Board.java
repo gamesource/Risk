@@ -5,6 +5,8 @@ import interfaces.CardBehaviour;
 import java.util.ArrayList;
 
 import controller.SoldierFactory;
+import controller.SoldierTypes;
+import controller.TerritoryNames;
 
 public class Board {
 
@@ -53,5 +55,57 @@ public class Board {
 
 	public boolean addContinent(Continent continent) {
 		return this.continents.add(continent);
+	}
+	
+	public void initializeGame()
+	{
+		initializeCards();
+		initializeContinents();
+	}
+	
+	private void initializeCards()
+	{
+		int numberOfTotalCards = 42; 
+		int numberForEachSoldier = 14;
+		
+		int count = 0;
+		for(int i = 0 ; i < numberOfTotalCards ; i ++)
+		{
+			CardBehaviour newCard = new TwoSlotsCard(TerritoryNames.values()[i]);
+			
+			if(count < numberForEachSoldier)
+			{
+				newCard.addSoldier(SoldierTypes.footman);
+			}
+			else if(count < 2*numberForEachSoldier)
+			{
+				newCard.addSoldier(SoldierTypes.horseman);
+			}
+			else
+			{
+				newCard.addSoldier(SoldierTypes.cannon);
+			}
+			cards.add(newCard);
+			count++;
+		}
+	}
+	
+	private void initializeContinents()
+	{
+		Continent northAmerica = new Continent("North America");
+		Continent africa = new Continent("Africa");
+		Continent asia = new Continent("Asia");
+		Continent australia = new Continent("Australia");
+		Continent southAmerica = new Continent("South America");
+		Continent newYork = new Continent("New York");
+		
+		ArrayList<Territory> territories = new ArrayList<Territory>();
+		
+		northAmerica.addTerritories(territories);
+		africa.addTerritories(territories);
+		asia.addTerritories(territories);
+		australia.addTerritories(territories);
+		southAmerica.addTerritories(territories);
+		newYork.addTerritories(territories);
 	}
 }
