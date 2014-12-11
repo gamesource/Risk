@@ -60,7 +60,7 @@ public class SoldierFactory {
 		return soldiers;
 	}
 	
-	public ArrayList<Soldier> createPlayerByContinent(Player player) {
+	public ArrayList<Soldier> createSoldierByContinent(Player player) {
 		ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
 		ArrayList<Continent> own_continents = new ArrayList<Continent>();
 		
