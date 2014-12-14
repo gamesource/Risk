@@ -3,10 +3,8 @@ package controller;
 import java.util.ArrayList;
 
 import model.Board;
-import model.Cannon;
 import model.Continent;
 import model.FootMan;
-import model.HorseMan;
 import model.Player;
 import model.Territory;
 import interfaces.CardBehaviour;
@@ -14,9 +12,9 @@ import interfaces.Soldier;
 
 public class SoldierFactory {
 	
-	public Soldier createSoldier(ArrayList<CardBehaviour> cards) {
+	public ArrayList<Soldier> createSoldier(ArrayList<CardBehaviour> cards) {
 		
-		Soldier soldier = null;
+		ArrayList<Soldier> soldiersToBeCreated = new ArrayList<Soldier>();
 		int value = 0x00;
 		boolean has_wild_card = false;
 		
@@ -30,27 +28,46 @@ public class SoldierFactory {
 		}
 		
 		if(has_wild_card) {
-			if(value != SoldierTypes.footman.getValue() || 
-					value != SoldierTypes.horseman.getValue() || 
-					value != SoldierTypes.cannon.getValue()) {
-				value = SoldierTypes.all.getValue();
-			}
+			soldiersToBeCreated = calculateTradeInSoldiers();
 		}
 
-		if(value == SoldierTypes.footman.getValue()) {
-			soldier = new FootMan();
+		if(value == SoldierTypes.footman.getValue() || value == SoldierTypes.cannon.getValue()
+				|| value == SoldierTypes.horseman.getValue()) 
+		{
+			soldiersToBeCreated = calculateTradeInSoldiers();
 		}
-		else if(value == SoldierTypes.horseman.getValue()) {
-			soldier = new HorseMan();
-		}
-		else if(value == SoldierTypes.cannon.getValue()) {
-			soldier = new Cannon();
-		}
-		else if(value == SoldierTypes.all.getValue()) {
-			soldier = new FootMan();
-		}
-		return soldier;
+		
+		return soldiersToBeCreated;
 	}
+	
+	public ArrayList<Soldier> calculateTradeInSoldiers()
+	{
+		int numberOfSoldierToBeAdded = 0;
+		ArrayList<Soldier> soldiers = new ArrayList<Soldier>();
+		Board board = Board.getInstance();
+		
+		if(board.getCounterForSetTrade() == 6)
+		{
+			board.setAdditionalSoldierForEachSetTrade(3);
+		}
+		
+		if(board.getCounterForSetTrade() == 7)
+		{
+			board.setAdditionalSoldierForEachSetTrade(5);
+		}
+		
+		numberOfSoldierToBeAdded = board.getInitialSoldierSizeForSetTrade() + board.getAdditionalSoldierForEachSetTrade();
+		board.setInitialSoldierSizeForSetTrade(numberOfSoldierToBeAdded);
+		board.setCounterForSetTrade(board.getCounterForSetTrade()+1);
+		
+		for(int i = 0 ; i < numberOfSoldierToBeAdded ; i++)
+		{
+			soldiers.add(new FootMan());
+		}
+		
+		return soldiers ;
+	}
+	
 	
 	public ArrayList<Soldier> createSoldier(Player player) {
 		ArrayList<Soldier> soldiers = new ArrayList<Soldier>();

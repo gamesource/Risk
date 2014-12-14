@@ -19,6 +19,9 @@ public class Board {
 	private ArrayList<CardBehaviour> cards ;
 	private SoldierFactory soldierFactory ;
 	private ArrayList<Continent> continents ;
+	private int counterForSetTrade = 1 ;
+	private int additionalSoldierForEachSetTrade = 2 ;
+	private int initialSoldierSizeForSetTrade = 2 ;
 	private Player currentPlayer;/*After adding all player, 
 									currentPlayer should be set and setSoldiersToDraft should be called immediately*/
 	
@@ -436,5 +439,31 @@ public class Board {
 
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
+	}
+
+	public int getCounterForSetTrade() {
+		return counterForSetTrade;
+	}
+
+	public void setCounterForSetTrade(int counterForSetTrade) {
+		this.counterForSetTrade = counterForSetTrade;
+	}
+
+	public int getAdditionalSoldierForEachSetTrade() {
+		return additionalSoldierForEachSetTrade;
+	}
+
+	public void setAdditionalSoldierForEachSetTrade(
+			int additionalSoldierForEachSetTrade) {
+		this.additionalSoldierForEachSetTrade = additionalSoldierForEachSetTrade;
+	}
+
+	public int getInitialSoldierSizeForSetTrade() {
+		return initialSoldierSizeForSetTrade;
+	}
+
+	public void setInitialSoldierSizeForSetTrade(
+			int initialSoldierSizeForSetTrade) {
+		this.initialSoldierSizeForSetTrade = initialSoldierSizeForSetTrade;
 	}
 }
