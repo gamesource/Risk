@@ -19,6 +19,8 @@ public class Board {
 	private ArrayList<CardBehaviour> cards ;
 	private SoldierFactory soldierFactory ;
 	private ArrayList<Continent> continents ;
+	private Player currentPlayer;/*After adding all player, 
+									currentPlayer should be set and setSoldiersToDraft should be called immediately*/
 	
 	private Board()
 	{
@@ -426,5 +428,13 @@ public class Board {
 		this.continents.add(australia);
 		this.continents.add(southAmerica);
 		this.continents.add(europe);
+	}
+
+	public Player getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
 }

@@ -4,18 +4,22 @@ import interfaces.CardBehaviour;
 
 import java.util.ArrayList;
 
+import controller.TurnPhrases;
+
 public class Player {
 
 	private String name ;
 	private ArrayList<Dice> dices ;
 	private ArrayList<Territory> territories ;
 	private ArrayList<CardBehaviour> cards;
+	private TurnPhrases turnPhrases ;
 	
 	public Player(String name){
 		this.name = name ;
 		this.dices = new ArrayList<Dice>() ;
 		this.territories = new ArrayList<Territory>() ;
 		this.cards = new ArrayList<CardBehaviour>();
+		this.turnPhrases = new TurnPhrases();
 	}
 	
 	public boolean addCard(CardBehaviour card) {
@@ -50,6 +54,26 @@ public class Player {
 	
 	public ArrayList<Territory> getTerritories() {
 		return territories;
+	}
+	
+	public void draft(Territory territory)
+	{
+		turnPhrases.draft(this,territory);
+	}
+	
+	public void attack()
+	{
+		turnPhrases.attack(this);
+	}
+	
+	public void fortify()
+	{
+		turnPhrases.fortify(this);
+	}
+	
+	public void pass()
+	{
+		turnPhrases.pass(this);
 	}
 	
 }
