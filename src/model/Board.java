@@ -168,6 +168,17 @@ public class Board {
 		alaska.addNeighbour(alberta);
 		alaska.addNeighbour(kamchatka);
 		
+		ontario.addNeighbour(northwest_territory);
+		ontario.addNeighbour(alberta);
+		ontario.addNeighbour(western_united_states);
+		ontario.addNeighbour(eastern_united_states);
+		ontario.addNeighbour(quebec);
+		
+		quebec.addNeighbour(northwest_territory);
+		quebec.addNeighbour(ontario);
+		quebec.addNeighbour(eastern_united_states);
+		quebec.addNeighbour(greenland);
+		
 		alberta.addNeighbour(alaska);
 		alberta.addNeighbour(northwest_territory);
 		alberta.addNeighbour(ontario);
@@ -205,6 +216,8 @@ public class Board {
 		east_africa.addNeighbour(middle_east);
 		east_africa.addNeighbour(madagascar);
 		east_africa.addNeighbour(south_africa);
+		east_africa.addNeighbour(north_africa);
+		east_africa.addNeighbour(egypt);
 		
 		egypt.addNeighbour(north_africa);
 		egypt.addNeighbour(east_africa);
@@ -218,6 +231,7 @@ public class Board {
 		north_africa.addNeighbour(egypt);
 		north_africa.addNeighbour(congo);
 		north_africa.addNeighbour(brazil);
+		north_africa.addNeighbour(east_africa);
 		
 		south_africa.addNeighbour(congo);
 		south_africa.addNeighbour(east_africa);
