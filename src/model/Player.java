@@ -2,6 +2,7 @@ package model;
 
 import interfaces.CardBehaviour;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import controller.TurnPhrases;
@@ -12,6 +13,7 @@ public class Player {
 	private ArrayList<Dice> dices ;
 	private ArrayList<Territory> territories ;
 	private ArrayList<CardBehaviour> cards;
+	private Color color;
 	private TurnPhrases turnPhrases ;
 	
 	public Player(String name){
@@ -52,6 +54,10 @@ public class Player {
 		return dices;
 	}
 	
+	public boolean addTerritory(Territory territory) {
+		return territories.add(territory);
+	}
+	
 	public ArrayList<Territory> getTerritories() {
 		return territories;
 	}
@@ -74,6 +80,14 @@ public class Player {
 	public void pass()
 	{
 		turnPhrases.pass(this);
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }

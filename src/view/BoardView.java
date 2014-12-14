@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -7,12 +8,21 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
+import controller.TerritoryController;
 import controller.TerritoryNames;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class BoardView {
 
 	private JFrame frame;
-
+	private ArrayList<JPanel> list;
+	private HashMap<TerritoryNames, JPanel> map;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -21,7 +31,7 @@ public class BoardView {
 			public void run() {
 				try {
 					BoardView window = new BoardView();
-					window.frame.setVisible(true);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,7 +43,10 @@ public class BoardView {
 	 * Create the application.
 	 */
 	public BoardView() {
+		list = new ArrayList<JPanel>();
+		map = new HashMap<TerritoryNames, JPanel>();
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -90,8 +103,9 @@ public class BoardView {
 		
 	}
 	
-	public JPanel createPanel(int x, int y, int width, int height, TerritoryNames name) {
-		JPanel panel = new JPanel();
+	public JPanel createPanel(int x, int y, int width, int height, final TerritoryNames name) {
+		final JPanel panel = new JPanel();
+
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel.setBounds(x, y, width, height);
 		frame.getContentPane().add(panel);
@@ -99,6 +113,42 @@ public class BoardView {
 		JLabel lbl = new JLabel(name.getName());
 		panel.add(lbl);
 		
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				updatePanel();
+				panel.setBackground(Color.red);
+				updateNeighbours(name);
+				System.out.println(name.getName());
+			}
+
+		});
+		
+		
+		list.add(panel);
+		map.put(name, panel);
 		return panel;
 	}
+	
+	public void updatePanel() {
+		Iterator<TerritoryNames> iterator = map.keySet().iterator();  
+		   
+		while (iterator.hasNext()) {  
+			TerritoryNames key = iterator.next();  
+			JPanel territory = map.get(key);  
+			Color color = TerritoryController.getTerritoryColor(key);
+			territory.setBackground(color);
+		}  
+		
+	}
+	
+	public void updateNeighbours(TerritoryNames name) {
+		ArrayList<TerritoryNames> neighbours = TerritoryController.getNeighbours(name);
+		for(TerritoryNames neighbour : neighbours) {
+			JPanel panel = map.get(neighbour);
+			panel.setBackground(Color.gray);
+		}
+	}
+	
 }
