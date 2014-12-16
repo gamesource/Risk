@@ -43,6 +43,8 @@ public class Simulation {
 		board.addPlayer(players.get(0));
 		board.addPlayer(players.get(1));
 		
+		board.setCurrentPlayer(players.get(0));
+		
 		BoardView window = new BoardView();
 		window.updatePanel();
 		
