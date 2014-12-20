@@ -5,15 +5,17 @@ import interfaces.CardBehaviour;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.sun.org.apache.bcel.internal.generic.DDIV;
-
+import state.GameState;
+import state.PlaceArmy;
+import state.State;
 import controller.ContinentNames;
 import controller.SoldierFactory;
 import controller.SoldierTypes;
 import controller.TerritoryNames;
 
 public class Board {
-
+	
+	private GameState state;
 	private static Board instance ;
 	private ArrayList<Player> players ; 
 	private ArrayList<CardBehaviour> cards ;
@@ -24,6 +26,7 @@ public class Board {
 	
 	private Board()
 	{
+		state = PlaceArmy.getInstance();  //Default state
 		soldierFactory = new SoldierFactory();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<CardBehaviour>();
@@ -37,6 +40,22 @@ public class Board {
 			instance = new Board();
 
 		return instance;
+	}
+	
+	public void next() {
+		this.state.next(this);
+	}
+
+	public void pass() {
+		this.state.pass(this);
+	}
+
+	public void changeState(GameState state) {
+		this.state = state;
+	}
+	
+	public State getCurrentState() {
+		return this.state.getState();
 	}
 
 	public ArrayList<Player> getPlayers() {

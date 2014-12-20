@@ -1,10 +1,13 @@
 package controller;
 
+import interfaces.Soldier;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
 import model.Board;
 import model.Continent;
+import model.FootMan;
 import model.Player;
 import model.Territory;
 
@@ -56,6 +59,18 @@ public class TerritoryController {
 		return false;
 	}
 	
+	public static int getNumberOfArmy(TerritoryNames name) {
+		int numberOfArmy = 0;
+		
+		Territory territory = queryTerritory(name);
+		System.out.println(territory.getName().getName());
+		for(Soldier soldier : territory.getSoldierList()) {
+			numberOfArmy += soldier.getSoldierStrength();
+		}
+		
+		return numberOfArmy;
+	}
+	
 	private static boolean isEnemyTerritory(Territory territory) {
 		Player current_player = board.getCurrentPlayer();
 		for(Territory enemy_territory : current_player.getTerritories()) {
@@ -68,8 +83,8 @@ public class TerritoryController {
 	
 	private static Territory queryTerritory(TerritoryNames name) {
 
-		for(Player player : board.getPlayers()) {
-			for(Territory territory : player.getTerritories()) {
+		for(Continent continent : board.getContinents()) {
+			for(Territory territory : continent.getTerritoryList()) {
 				if(territory.getName() == name) {
 					return territory;
 				}
@@ -78,4 +93,23 @@ public class TerritoryController {
 		
 		return null;
 	}
+	
+	public static void addSoldier(TerritoryNames name) {
+		Territory territory = queryTerritory(name);
+		
+		territory.addSoldier(new FootMan());
+	}
+	
+	public static void changeState(boolean pass) {
+		if(pass) {
+			board.pass();
+		}
+		else {
+			board.next();
+		}
+		
+		System.out.println(board.getCurrentState());
+	}
+	
+	
 }
