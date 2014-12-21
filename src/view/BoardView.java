@@ -16,12 +16,17 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BoardView {
 
 	private JFrame frame;
-	private ArrayList<JPanel> list;
 	private HashMap<TerritoryNames, JPanel> map;
+	private HashMap<TerritoryNames, JLabel> lblMap;
+	private TerritoryNames currentTerritory = null;
 	
 	/**
 	 * Launch the application.
@@ -43,8 +48,9 @@ public class BoardView {
 	 * Create the application.
 	 */
 	public BoardView() {
-		list = new ArrayList<JPanel>();
+		
 		map = new HashMap<TerritoryNames, JPanel>();
+		lblMap = new HashMap<TerritoryNames, JLabel>();
 		initialize();
 		frame.setVisible(true);
 	}
@@ -101,6 +107,20 @@ public class BoardView {
 		createPanel(867, 395, 73, 98, TerritoryNames.western_australia);
 		createPanel(950, 441, 68, 70, TerritoryNames.eastern_australia);
 		
+		JButton btnNext = new JButton("Place");
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentTerritory != null) {
+					TerritoryController.changeState(false);
+					//TerritoryController.addSoldier(currentTerritory);
+					//updatePanel();
+					//updateNeighbours(currentTerritory);
+				}
+			}
+		});
+		btnNext.setBounds(442, 644, 118, 42);
+		frame.getContentPane().add(btnNext);
+		
 	}
 	
 	public JPanel createPanel(int x, int y, int width, int height, final TerritoryNames name) {
@@ -109,25 +129,36 @@ public class BoardView {
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel.setBounds(x, y, width, height);
 		frame.getContentPane().add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lbl = new JLabel(name.getName());
-		panel.add(lbl);
+		
+		JLabel lblName = new JLabel(name.getName());
+		panel.add(lblName, BorderLayout.NORTH);
+		final JLabel lblArmy = new JLabel("");
+		
+		panel.add(lblArmy, BorderLayout.CENTER);
+		
 		
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
+			//	if(!currentPanel.equals(panel))
+				if(!TerritoryController.isCurrentPlayersTerritory(name)) {
+					return;
+				}
+				currentTerritory = name;
 				updatePanel();
 				panel.setBackground(Color.red);
 				updateNeighbours(name);
+				
 				System.out.println(name.getName());
 			}
 
 		});
 		
-		
-		list.add(panel);
 		map.put(name, panel);
+		lblMap.put(name, lblArmy);
+		
 		return panel;
 	}
 	
@@ -136,19 +167,35 @@ public class BoardView {
 		   
 		while (iterator.hasNext()) {  
 			TerritoryNames key = iterator.next();  
-			JPanel territory = map.get(key);  
+			JPanel territory = map.get(key);
 			Color color = TerritoryController.getTerritoryColor(key);
 			territory.setBackground(color);
+			
 		}  
-		
+		updateArmy();
 	}
 	
-	public void updateNeighbours(TerritoryNames name) {
-		ArrayList<TerritoryNames> neighbours = TerritoryController.getNeighbours(name);
-		for(TerritoryNames neighbour : neighbours) {
-			JPanel panel = map.get(neighbour);
-			panel.setBackground(Color.gray);
+	public void updateArmy() {
+		Iterator<TerritoryNames> iterator = lblMap.keySet().iterator();  
+		   
+		while (iterator.hasNext()) {  
+			TerritoryNames key = iterator.next();  
+			lblMap.get(key).setText(""+TerritoryController.getNumberOfArmy(key));
 		}
 	}
 	
+	public void updateNeighbours(TerritoryNames name) {
+		ArrayList<TerritoryNames> ally_neighbours = TerritoryController.getNeighbours(name, false);
+		
+		for(TerritoryNames ally_neighbour : ally_neighbours) {
+			JPanel panel = map.get(ally_neighbour);
+			panel.setBackground(Color.gray);
+		}
+		
+		ArrayList<TerritoryNames> enemy_neighbours = TerritoryController.getNeighbours(name, true);
+		for(TerritoryNames enemy_neighbour : enemy_neighbours) {
+			JPanel panel = map.get(enemy_neighbour);
+			panel.setBackground(Color.lightGray);
+		}
+	}
 }

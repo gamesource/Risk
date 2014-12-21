@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
+import controller.TerritoryController;
+import controller.TerritoryNames;
 import view.BoardView;
 import model.Board;
+import model.Cannon;
 import model.Continent;
 import model.Dice;
+import model.FootMan;
 import model.Player;
 import model.Territory;
 
@@ -32,16 +36,25 @@ public class Simulation {
 		ArrayList<Territory> territories = new ArrayList<Territory>();
 		for(Continent continent : board.getContinents()) {
 			for(Territory territory : continent.getTerritoryList()) {
+				
 				territories.add(territory);
 			}
 		}
+		
 		
 		for(Territory territory : territories) {
 			players.get((int) (Math.random() * 2)).addTerritory(territory);
 		}
 		
+		for(Territory territory : territories) {
+			territory.addSoldier(new FootMan());
+		}
+		
+		
 		board.addPlayer(players.get(0));
 		board.addPlayer(players.get(1));
+		
+		board.setCurrentPlayer(players.get(0));
 		
 		BoardView window = new BoardView();
 		window.updatePanel();
