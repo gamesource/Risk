@@ -9,7 +9,6 @@ import controller.TurnPhrases;
 
 public class Player {
 
-	private String name ;
 	private ArrayList<Dice> dices ;
 	private ArrayList<Territory> territories ;
 	private ArrayList<CardBehaviour> cards;
@@ -17,7 +16,6 @@ public class Player {
 	private TurnPhrases turnPhrases ;
 	
 	public Player(String name){
-		this.name = name ;
 		this.dices = new ArrayList<Dice>() ;
 		this.territories = new ArrayList<Territory>() ;
 		this.cards = new ArrayList<CardBehaviour>();
@@ -55,6 +53,7 @@ public class Player {
 	}
 	
 	public boolean addTerritory(Territory territory) {
+		territory.setOwner(this);
 		return territories.add(territory);
 	}
 	
@@ -67,9 +66,9 @@ public class Player {
 		turnPhrases.draft(this,territory);
 	}
 	
-	public void attack()
+	public void attack(Territory attackersTerritory,Territory defendersTerritory,int armySize)
 	{
-		turnPhrases.attack(this);
+		turnPhrases.attack(attackersTerritory,defendersTerritory,armySize);
 	}
 	
 	public void fortify()

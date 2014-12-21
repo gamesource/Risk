@@ -11,6 +11,7 @@ public class Territory {
 	private TerritoryNames name;
 	private ArrayList<Soldier> soldiers;
 	private ArrayList<Territory> neighbours;
+	private Player owner;
 	
 	public Territory(TerritoryNames name) {
 		this.name = name;
@@ -50,5 +51,13 @@ public class Territory {
 	
 	public boolean addNeighbour(Territory neighbour) {
 		return neighbours.add(neighbour);
+	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 }
