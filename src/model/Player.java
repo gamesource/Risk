@@ -1,6 +1,7 @@
 package model;
 
 import interfaces.CardBehaviour;
+import interfaces.Soldier;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class Player {
 		return territories.add(territory);
 	}
 	
+	public boolean removeTerritory(Territory territory) {
+		return territories.remove(territory);
+	}
+	
 	public ArrayList<Territory> getTerritories() {
 		return territories;
 	}
@@ -71,9 +76,9 @@ public class Player {
 		turnPhrases.attack(attackersTerritory,defendersTerritory,armySize);
 	}
 	
-	public void fortify()
+	public void fortify(Territory oldTerritory,Territory newTerritory,Soldier soldier)
 	{
-		turnPhrases.fortify(this);
+		turnPhrases.fortify(this,oldTerritory,newTerritory, soldier);
 	}
 	
 	public void pass()

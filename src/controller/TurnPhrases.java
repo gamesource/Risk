@@ -1,5 +1,6 @@
 package controller;
 
+import interfaces.CardBehaviour;
 import interfaces.Soldier;
 
 import java.util.ArrayList;
@@ -117,19 +118,18 @@ public class TurnPhrases {
 		
 		for(int i = 0 ; i< numberOfArmyLostByDefender; i++)
 		{
-			defendersTerritory.getSoldierList().remove(i);
+			defendersTerritory.getSoldierList().remove(0);
 		}
 		
 		if(defendersArmySize == 0)
 		{
 			defendersTerritory.setOwner(attakersTerritory.getOwner());
 			attakersTerritory.getOwner().addTerritory(defendersTerritory);
+			defendersTerritory.getOwner().removeTerritory(defendersTerritory);
 			
-			//bonus for occupy new territory.
-
 			//If occupied all territories of continent,then bonus.
 			Board board = Board.getInstance();
-			List<Soldier> soldiers = board.getSoldierFactory().createSoldierByContinent(attacker);
+			List<Soldier> soldiers = board.getSoldierFactory().createSoldierByContinent(attakersTerritory.getOwner());
 			
 			for(Soldier soldier: soldiers)
 			{
@@ -140,6 +140,16 @@ public class TurnPhrases {
 			{
 				defendersTerritory.addSoldier(new FootMan());
 			}
+			
+			//Get all cards of player
+			if(defendersTerritory.getOwner().getTerritories().size() == 0)
+			{
+				for(CardBehaviour card : defendersTerritory.getOwner().getCards())
+				{
+					attakersTerritory.getOwner().addCard(card);
+				}
+			}
+			
 		}
 		else
 		{
@@ -150,9 +160,10 @@ public class TurnPhrases {
 		}
 	}
 	
-	public void fortify(Player player)
+	public void fortify(Player player,Territory oldTerritory,Territory newTerritory,Soldier soldier)
 	{
-		
+		newTerritory.addSoldier(soldier);
+		oldTerritory.removeSoldier(soldier);
 	}
 	
 	public void pass(Player player)
