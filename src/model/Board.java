@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import state.GameState;
-import state.PlaceArmy;
+import state.Draft;
 import state.State;
 import controller.ContinentNames;
 import controller.SoldierFactory;
@@ -29,7 +29,7 @@ public class Board {
 	
 	private Board()
 	{
-		state = PlaceArmy.getInstance();  //Default state
+		state = Draft.getInstance();  //Default state
 		soldierFactory = new SoldierFactory();
 		players = new ArrayList<Player>();
 		cards = new ArrayList<CardBehaviour>();

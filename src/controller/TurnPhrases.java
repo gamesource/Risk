@@ -160,6 +160,6 @@ public class TurnPhrases {
 		Board board = Board.getInstance();
 		int playerIndex = board.getPlayers().indexOf(player);
 		int playersSize = board.getPlayers().size();
-		board.setCurrentPlayer(board.getPlayers().get(playerIndex+1 % playersSize));
+		board.setCurrentPlayer(board.getPlayers().get((playerIndex+1) % playersSize));
 	}
 }

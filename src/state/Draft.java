@@ -2,14 +2,14 @@ package state;
 
 import model.Board;
 
-public class PlaceArmy extends GameState{
+public class Draft extends GameState{
 
-	private static PlaceArmy instance = null;
-	private PlaceArmy() {}
+	private static Draft instance = null;
+	private Draft() {}
 	
-	public static PlaceArmy getInstance() {
+	public static Draft getInstance() {
 		if(instance == null) {
-			instance = new PlaceArmy();
+			instance = new Draft();
 		}
 		
 		return instance;
@@ -22,12 +22,12 @@ public class PlaceArmy extends GameState{
 
 	@Override
 	public void pass(Board board) {
-		changeState(board, PlaceArmy.getInstance());			
+		changeState(board, Draft.getInstance());			
 	}
 
 	@Override
 	public State getState() {
-		return State.place_army;
+		return State.draft;
 	}
 
 }

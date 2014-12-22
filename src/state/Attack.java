@@ -22,7 +22,7 @@ public class Attack extends GameState{
 
 	@Override
 	public void pass(Board board) {
-		changeState(board, PlaceArmy.getInstance());
+		changeState(board, Draft.getInstance());
 	}
 
 	@Override

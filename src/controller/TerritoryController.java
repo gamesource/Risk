@@ -13,7 +13,8 @@ import model.Player;
 import model.Territory;
 
 public class TerritoryController {
-	static Board board = Board.getInstance();
+	private static Board board = Board.getInstance();
+	private static TurnPhrases turn_phrases = new TurnPhrases();
 	
 	public static Color getTerritoryColor(TerritoryNames name) {
 
@@ -36,7 +37,6 @@ public class TerritoryController {
 			if(enemy) {
 				if(isEnemyTerritory(neighbour)) {
 					neighbours.add(neighbour.getName());
-					continue;
 				}
 			}
 			else {
@@ -50,14 +50,13 @@ public class TerritoryController {
 	}
 	
 	public static boolean isCurrentPlayersTerritory(TerritoryNames name) {
-		Player currentPlayer = board.getCurrentPlayer();
-		
-		for(Territory territory : currentPlayer.getTerritories()) {
-			if(territory.getName() == name) {
-				return true;
-			}
-		}
-		return false;
+		Territory territory = queryTerritory(name);
+		return !isEnemyTerritory(territory);
+	}
+	
+	private static boolean isEnemyTerritory(Territory territory) {
+		Player current_player = board.getCurrentPlayer();
+		return !territory.getOwner().equals(current_player);
 	}
 	
 	public static int getNumberOfArmy(TerritoryNames name) {
@@ -69,16 +68,6 @@ public class TerritoryController {
 		}
 		
 		return numberOfArmy;
-	}
-	
-	private static boolean isEnemyTerritory(Territory territory) {
-		Player current_player = board.getCurrentPlayer();
-		for(Territory enemy_territory : current_player.getTerritories()) {
-			if(enemy_territory.equals(territory)) {
-				return false;
-			}
-		}
-		return true;
 	}
 	
 	private static Territory queryTerritory(TerritoryNames name) {
@@ -95,9 +84,15 @@ public class TerritoryController {
 	}
 	
 	public static void addSoldier(TerritoryNames name) {
+		Player current_player = board.getCurrentPlayer();
 		Territory territory = queryTerritory(name);
-		
-		territory.addSoldier(new FootMan());
+
+		turn_phrases.draft(current_player, territory);
+	}
+	
+	public static void newTurn() {
+		Player current_player = board.getCurrentPlayer();
+		turn_phrases.setSoldiersToDraft(current_player);
 	}
 	
 	public static void changeState(boolean pass) {
@@ -113,6 +108,11 @@ public class TerritoryController {
 	
 	public static State getCurrentState() {
 		return board.getCurrentState();
+	}
+	
+	public static void changeCurrentPlayer() {
+		Player current_player = board.getCurrentPlayer();
+		turn_phrases.pass(current_player);
 	}
 	
 }
