@@ -1,7 +1,7 @@
 package state;
 
 public enum State {
-	place_army("Place"),
+	place_army("Add Soldier"),
 	attack("Attack"),
 	fortify("Fortify");
 	

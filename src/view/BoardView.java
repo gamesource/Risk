@@ -16,7 +16,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import javax.swing.JButton;
+
+import state.State;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -107,14 +111,43 @@ public class BoardView {
 		createPanel(867, 395, 73, 98, TerritoryNames.western_australia);
 		createPanel(950, 441, 68, 70, TerritoryNames.eastern_australia);
 		
-		JButton btnNext = new JButton("Place");
+		final JButton button = new JButton(State.place_army.getValue());
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(currentTerritory != null) {
+					State state = TerritoryController.getCurrentState();
+					if(state == State.place_army) {
+						TerritoryController.addSoldier(currentTerritory);
+					} 
+					else if(state == State.attack) {
+						
+					}
+					else {
+						
+					}
+					
+					updatePanel();
+					updateNeighbours(currentTerritory);
+				}
+			}
+		});
+		button.setBounds(322, 644, 118, 42);
+		frame.getContentPane().add(button);
+		
+		final JButton btnNext = new JButton("Complete");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentTerritory != null) {
 					TerritoryController.changeState(false);
-					//TerritoryController.addSoldier(currentTerritory);
-					//updatePanel();
-					//updateNeighbours(currentTerritory);
+					State state = TerritoryController.getCurrentState();
+					if(state == State.place_army) {
+						btnNext.setText("Complete");
+					}
+					else {
+						btnNext.setText("Pass");
+					}
+					
+					button.setText(state.getValue());
 				}
 			}
 		});

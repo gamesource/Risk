@@ -5,6 +5,7 @@ import interfaces.Soldier;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import state.State;
 import model.Board;
 import model.Continent;
 import model.FootMan;
@@ -63,7 +64,6 @@ public class TerritoryController {
 		int numberOfArmy = 0;
 		
 		Territory territory = queryTerritory(name);
-		System.out.println(territory.getName().getName());
 		for(Soldier soldier : territory.getSoldierList()) {
 			numberOfArmy += soldier.getSoldierStrength();
 		}
@@ -111,5 +111,8 @@ public class TerritoryController {
 		System.out.println(board.getCurrentState());
 	}
 	
+	public static State getCurrentState() {
+		return board.getCurrentState();
+	}
 	
 }
