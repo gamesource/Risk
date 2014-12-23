@@ -132,4 +132,12 @@ public class TerritoryController {
 		turn_phrases.pass(current_player);
 	}
 	
+	public static void fortify(TerritoryNames old_territory, TerritoryNames new_territory, int number_of_soldier) {
+		Player current_player = board.getCurrentPlayer();
+		Territory from = queryTerritory(old_territory);
+		Territory to = queryTerritory(new_territory);
+		
+		turn_phrases.fortify(current_player, from, to, from.getSoldierWithStrength(1));
+	}
+	
 }

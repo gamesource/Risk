@@ -111,7 +111,7 @@ public class BoardView {
 						TerritoryController.attack(currentTerritory, secondTerritory, armyToAttack);
 					}
 					else if(state == State.fortify) {
-						
+						TerritoryController.fortify(currentTerritory, secondTerritory, 1);
 					}
 					
 					updatePanel();
@@ -211,6 +211,26 @@ public class BoardView {
 				}
 				else if(state == State.fortify) {
 					
+					if(secondTerritory == null ) {
+						secondTerritory = name;
+						if(TerritoryController.isNeighbour(currentTerritory, secondTerritory)) {
+							map.get(secondTerritory).setBackground(Color.blue);
+						}
+						else {
+							secondTerritory = null;
+							currentTerritory = name;
+							updatePanel();
+							map.get(currentTerritory).setBackground(Color.red);
+							updateNeighbours(currentTerritory);
+						}
+					}
+					else {
+						secondTerritory = null;
+						currentTerritory = name;
+						updatePanel();
+						map.get(currentTerritory).setBackground(Color.red);
+						updateNeighbours(currentTerritory);
+					}
 				}
 				
 				System.out.println(name.getName());
