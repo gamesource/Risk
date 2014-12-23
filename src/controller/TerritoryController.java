@@ -95,6 +95,18 @@ public class TerritoryController {
 		turn_phrases.setSoldiersToDraft(current_player);
 	}
 	
+	public static boolean isNeighbour(TerritoryNames current, TerritoryNames neighbour) {
+		Territory current_territory = queryTerritory(current);
+		Territory neightbour_territory = queryTerritory(neighbour);
+		
+		for(Territory neightory : current_territory.getNeighbours()) {
+			if(neightory.equals(neightbour_territory)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static void changeState(boolean pass) {
 		if(pass) {
 			board.pass();

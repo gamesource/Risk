@@ -31,23 +31,8 @@ public class BoardView {
 	private HashMap<TerritoryNames, JPanel> map;
 	private HashMap<TerritoryNames, JLabel> lblMap;
 	private TerritoryNames currentTerritory = null;
+	private TerritoryNames secondTerritory = null;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BoardView window = new BoardView();
-					//window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the application.
 	 */
@@ -56,6 +41,7 @@ public class BoardView {
 		map = new HashMap<TerritoryNames, JPanel>();
 		lblMap = new HashMap<TerritoryNames, JLabel>();
 		initialize();
+		TerritoryController.newTurn();
 		frame.setVisible(true);
 	}
 
@@ -122,11 +108,12 @@ public class BoardView {
 					else if(state == State.attack) {
 						
 					}
-					else {
+					else if(state == State.fortify) {
 						
 					}
 					
 					updatePanel();
+					map.get(currentTerritory).setBackground(Color.red);
 					updateNeighbours(currentTerritory);
 				}
 			}
@@ -173,14 +160,31 @@ public class BoardView {
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-			//	if(!currentPanel.equals(panel))
+				State state = TerritoryController.getCurrentState();
 				if(!TerritoryController.isCurrentPlayersTerritory(name)) {
-					return;
+					if(state == State.draft) {
+						return;
+					}
+					else if(state == State.attack) {
+						System.out.println("current : " + currentTerritory.getName());
+						System.out.println("name : "+ name.getName());
+						if(TerritoryController.isNeighbour(currentTerritory, name)) {
+							updatePanel();
+							updateNeighbours(currentTerritory);
+							panel.setBackground(Color.BLUE);
+							map.get(currentTerritory).setBackground(Color.red);
+						}
+					}
 				}
-				currentTerritory = name;
-				updatePanel();
-				panel.setBackground(Color.red);
-				updateNeighbours(name);
+				else if(state == State.draft || state == State.attack) {
+					currentTerritory = name;
+					updatePanel();
+					panel.setBackground(Color.red);
+					updateNeighbours(name);
+				}
+				else if(state == State.fortify) {
+					
+				}
 				
 				System.out.println(name.getName());
 			}
