@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import state.State;
 import model.Board;
 import model.Continent;
-import model.FootMan;
 import model.Player;
 import model.Territory;
 
@@ -70,7 +69,7 @@ public class TerritoryController {
 		return numberOfArmy;
 	}
 	
-	private static Territory queryTerritory(TerritoryNames name) {
+	public static Territory queryTerritory(TerritoryNames name) {
 
 		for(Continent continent : board.getContinents()) {
 			for(Territory territory : continent.getTerritoryList()) {
@@ -84,10 +83,16 @@ public class TerritoryController {
 	}
 	
 	public static void addSoldier(TerritoryNames name) {
-		Player current_player = board.getCurrentPlayer();
 		Territory territory = queryTerritory(name);
+		turn_phrases.draft(territory);
+	}
+	
+	public static void attack(TerritoryNames attacker,TerritoryNames defender,int armySize)
+	{
+		Territory attackerTerritory = queryTerritory(attacker);
+		Territory defenderTerritory = queryTerritory(defender);
 
-		turn_phrases.draft(current_player, territory);
+		turn_phrases.attack(attackerTerritory, defenderTerritory, armySize);
 	}
 	
 	public static void newTurn() {

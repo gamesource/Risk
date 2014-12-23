@@ -26,22 +26,16 @@ public class TurnPhrases {
 		soldiersToDraft.addAll(soldierFactory.createSoldierByContinent(player));
 	}
 	
-	public void draft(Player player,Territory territory)
+	public void draft(Territory territory)
 	{
-		for(Territory aTerritory : player.getTerritories() )
+		if(soldiersToDraft.size() != 0)
 		{
-			if(aTerritory.getName() == territory.getName())
-			{
-				if(soldiersToDraft.size() != 0)
-				{
-					aTerritory.addSoldier(soldiersToDraft.get(0));
-					soldiersToDraft.remove(0);
-				}
-				else
-				{
-					System.err.println("No more soldier to draft !");
-				}
-			}
+			territory.addSoldier(soldiersToDraft.get(0));
+			soldiersToDraft.remove(0);
+		}
+		else
+		{
+			System.err.println("No more soldier to draft !");
 		}
 	}
 	
@@ -60,10 +54,12 @@ public class TurnPhrases {
 		
 		if(defendersArmySize == 1)
 		{
+			System.out.println("defenders army : 1");
 			defender.addDice(new Dice());
 		}
 		else
 		{
+			System.out.println("defenders army : 2");
 			defender.addDice(new Dice());
 			defender.addDice(new Dice());
 		}
@@ -73,6 +69,8 @@ public class TurnPhrases {
 			attacker.addDice(new Dice());
 		}
 		
+		System.out.println("attackers army : "+ armySize);
+		
 		attacker.roll();
 		defender.roll();
 		
@@ -81,11 +79,21 @@ public class TurnPhrases {
 		}
 		
 		for(Dice dice : defender.getDices()) {
-			rolledNumbersOfAttacker.add(dice.getValue());
+			rolledNumbersOfDefender.add(dice.getValue());
 		}
 		
-		Collections.sort(rolledNumbersOfAttacker);
-		Collections.sort(rolledNumbersOfDefender);
+		Collections.reverse(rolledNumbersOfAttacker);
+		Collections.reverse(rolledNumbersOfDefender);
+		
+		for(int a : rolledNumbersOfAttacker)
+		{
+			System.out.println("attackers dice : " +a);
+		}
+		
+		for(int a : rolledNumbersOfDefender)
+		{
+			System.out.println("defender dice : " + a);
+		}
 		
 		if(rolledNumbersOfDefender.size() == 1)
 		{
@@ -112,6 +120,9 @@ public class TurnPhrases {
 				}
 			}
 		}
+		
+		System.out.println("losed army of attacker " + numberOfArmyLostByAttacker);
+		System.out.println("losed army of defender " + numberOfArmyLostByDefender);
 		
 		attackersArmySize = attackersArmySize - numberOfArmyLostByAttacker;
 		defendersArmySize = defendersArmySize - numberOfArmyLostByDefender;

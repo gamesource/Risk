@@ -1,16 +1,11 @@
 package main;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.util.ArrayList;
 
-import controller.TerritoryController;
-import controller.TerritoryNames;
 import view.BoardView;
 import model.Board;
-import model.Cannon;
 import model.Continent;
-import model.Dice;
 import model.FootMan;
 import model.Player;
 import model.Territory;

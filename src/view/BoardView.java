@@ -1,9 +1,8 @@
 package view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
@@ -19,6 +18,8 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
+import model.Territory;
+
 import state.State;
 
 import java.awt.BorderLayout;
@@ -32,6 +33,7 @@ public class BoardView {
 	private HashMap<TerritoryNames, JLabel> lblMap;
 	private TerritoryNames currentTerritory = null;
 	private TerritoryNames secondTerritory = null;
+	private int armyToAttack = 0;
 	
 	/**
 	 * Create the application.
@@ -106,7 +108,7 @@ public class BoardView {
 						TerritoryController.addSoldier(currentTerritory);
 					} 
 					else if(state == State.attack) {
-						
+						TerritoryController.attack(currentTerritory, secondTerritory, armyToAttack);
 					}
 					else if(state == State.fortify) {
 						
@@ -131,6 +133,13 @@ public class BoardView {
 						TerritoryController.changeCurrentPlayer();
 						TerritoryController.newTurn();
 						updatePanel();
+					}
+					else if(state == State.attack)
+					{
+					}
+					else if(state == State.fortify)
+					{
+						secondTerritory = null;
 					}
 					button.setText(state.getValue());
 				}
@@ -166,12 +175,31 @@ public class BoardView {
 						return;
 					}
 					else if(state == State.attack) {
+						armyToAttack = 0;
 						secondTerritory = name;
 						if(TerritoryController.isNeighbour(currentTerritory, secondTerritory)) {
+							String army = JOptionPane.showInputDialog(frame,
+			                        "Enter your army size: ", null);
+							
+							armyToAttack = Integer.parseInt(army);
+							Territory territory = TerritoryController.queryTerritory(currentTerritory);
+							while(armyToAttack > territory.getSoldierList().size())
+							{
+								army = JOptionPane.showInputDialog(frame,
+				                        "Enter your army size-again: ", null);
+								armyToAttack = Integer.parseInt(army);
+							}
+							
+							for(int i = 0 ; i < armyToAttack ; i++)
+							{
+								territory.getSoldierList().remove(0);
+							}
+							
 							updatePanel();
 							updateNeighbours(currentTerritory);
 							map.get(secondTerritory).setBackground(Color.blue);
 							map.get(currentTerritory).setBackground(Color.red);
+							System.out.println("army size is : " + armyToAttack);
 						}
 					}
 				}

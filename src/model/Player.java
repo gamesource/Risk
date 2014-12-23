@@ -1,12 +1,9 @@
 package model;
 
 import interfaces.CardBehaviour;
-import interfaces.Soldier;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
-import controller.TurnPhrases;
 
 public class Player {
 
@@ -14,13 +11,11 @@ public class Player {
 	private ArrayList<Territory> territories ;
 	private ArrayList<CardBehaviour> cards;
 	private Color color;
-	private TurnPhrases turnPhrases ;
 	
 	public Player(String name){
 		this.dices = new ArrayList<Dice>() ;
 		this.territories = new ArrayList<Territory>() ;
 		this.cards = new ArrayList<CardBehaviour>();
-		this.turnPhrases = new TurnPhrases();
 	}
 	
 	public boolean addCard(CardBehaviour card) {
@@ -64,26 +59,6 @@ public class Player {
 	
 	public ArrayList<Territory> getTerritories() {
 		return territories;
-	}
-	
-	public void draft(Territory territory)
-	{
-		turnPhrases.draft(this,territory);
-	}
-	
-	public void attack(Territory attackersTerritory,Territory defendersTerritory,int armySize)
-	{
-		turnPhrases.attack(attackersTerritory,defendersTerritory,armySize);
-	}
-	
-	public void fortify(Territory oldTerritory,Territory newTerritory,Soldier soldier)
-	{
-		turnPhrases.fortify(this,oldTerritory,newTerritory, soldier);
-	}
-	
-	public void pass()
-	{
-		turnPhrases.pass(this);
 	}
 	
 	public Color getColor() {
