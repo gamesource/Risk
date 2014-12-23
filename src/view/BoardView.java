@@ -166,12 +166,11 @@ public class BoardView {
 						return;
 					}
 					else if(state == State.attack) {
-						System.out.println("current : " + currentTerritory.getName());
-						System.out.println("name : "+ name.getName());
-						if(TerritoryController.isNeighbour(currentTerritory, name)) {
+						secondTerritory = name;
+						if(TerritoryController.isNeighbour(currentTerritory, secondTerritory)) {
 							updatePanel();
 							updateNeighbours(currentTerritory);
-							panel.setBackground(Color.BLUE);
+							map.get(secondTerritory).setBackground(Color.blue);
 							map.get(currentTerritory).setBackground(Color.red);
 						}
 					}
@@ -179,8 +178,8 @@ public class BoardView {
 				else if(state == State.draft || state == State.attack) {
 					currentTerritory = name;
 					updatePanel();
-					panel.setBackground(Color.red);
-					updateNeighbours(name);
+					map.get(currentTerritory).setBackground(Color.red);
+					updateNeighbours(currentTerritory);
 				}
 				else if(state == State.fortify) {
 					
