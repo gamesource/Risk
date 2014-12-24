@@ -137,7 +137,7 @@ public class BoardView {
 						int remainedSoldiers = TerritoryController.getRemainingSoldiers();
 						if(remainedSoldiers > 0)
 						{
-							JOptionPane.showMessageDialog(frame, "You should draft " + remainedSoldiers + "soldiers.");
+							JOptionPane.showMessageDialog(frame, "You should draft " + remainedSoldiers + " soldiers.");
 							return ;
 						}
 					}
