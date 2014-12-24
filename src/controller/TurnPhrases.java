@@ -26,6 +26,11 @@ public class TurnPhrases {
 		soldiersToDraft.addAll(soldierFactory.createSoldierByContinent(player));
 	}
 	
+	public int getSoldiersToDraftSize()
+	{
+		return soldiersToDraft.size();
+	}
+	
 	public void draft(Territory territory)
 	{
 		if(soldiersToDraft.size() != 0)
@@ -54,22 +59,28 @@ public class TurnPhrases {
 		
 		if(defendersArmySize == 1)
 		{
-			System.out.println("defenders army : 1");
 			defender.addDice(new Dice());
 		}
 		else
 		{
-			System.out.println("defenders army : 2");
 			defender.addDice(new Dice());
 			defender.addDice(new Dice());
 		}
 		
-		for(int i = 0 ; i < armySize ; i++)//Maximum three
+		if(armySize >= 3)
 		{
-			attacker.addDice(new Dice());
+			for(int i = 0 ; i < 3 ; i++)//Maximum three
+			{
+				attacker.addDice(new Dice());
+			}
 		}
-		
-		System.out.println("attackers army : "+ armySize);
+		else
+		{
+			for(int i = 0 ; i < armySize ; i++)
+			{
+				attacker.addDice(new Dice());
+			}
+		}
 		
 		attacker.roll();
 		defender.roll();
@@ -84,16 +95,6 @@ public class TurnPhrases {
 		
 		Collections.reverse(rolledNumbersOfAttacker);
 		Collections.reverse(rolledNumbersOfDefender);
-		
-		for(int a : rolledNumbersOfAttacker)
-		{
-			System.out.println("attackers dice : " +a);
-		}
-		
-		for(int a : rolledNumbersOfDefender)
-		{
-			System.out.println("defender dice : " + a);
-		}
 		
 		if(rolledNumbersOfDefender.size() == 1)
 		{
@@ -121,9 +122,6 @@ public class TurnPhrases {
 			}
 		}
 		
-		System.out.println("losed army of attacker " + numberOfArmyLostByAttacker);
-		System.out.println("losed army of defender " + numberOfArmyLostByDefender);
-		
 		attackersArmySize = attackersArmySize - numberOfArmyLostByAttacker;
 		defendersArmySize = defendersArmySize - numberOfArmyLostByDefender;
 		
@@ -134,18 +132,8 @@ public class TurnPhrases {
 		
 		if(defendersArmySize == 0)
 		{
-			defendersTerritory.setOwner(attakersTerritory.getOwner());
-			attakersTerritory.getOwner().addTerritory(defendersTerritory);
-			defendersTerritory.getOwner().removeTerritory(defendersTerritory);
-			
-			//If occupied all territories of continent,then bonus.
-			Board board = Board.getInstance();
-			List<Soldier> soldiers = board.getSoldierFactory().createSoldierByContinent(attakersTerritory.getOwner());
-			
-			for(Soldier soldier: soldiers)
-			{
-				defendersTerritory.addSoldier(soldier);
-			}
+			attacker.addTerritory(defendersTerritory);
+			defender.removeTerritory(defendersTerritory);
 			
 			for(int i = 0 ; i< attackersArmySize ; i++)
 			{
@@ -153,11 +141,11 @@ public class TurnPhrases {
 			}
 			
 			//Get all cards of player
-			if(defendersTerritory.getOwner().getTerritories().size() == 0)
+			if(defender.getTerritories().size() == 0)
 			{
-				for(CardBehaviour card : defendersTerritory.getOwner().getCards())
+				for(CardBehaviour card : defender.getCards())
 				{
-					attakersTerritory.getOwner().addCard(card);
+					attacker.addCard(card);
 				}
 			}
 			
@@ -169,6 +157,9 @@ public class TurnPhrases {
 				attakersTerritory.addSoldier(new FootMan());
 			}
 		}
+		
+		attacker.resetDices();
+		defender.resetDices();
 	}
 	
 	public void fortify(Player player,Territory oldTerritory,Territory newTerritory,Soldier soldier)

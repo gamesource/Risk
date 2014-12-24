@@ -9,6 +9,7 @@ import javax.swing.border.EtchedBorder;
 
 import controller.TerritoryController;
 import controller.TerritoryNames;
+import controller.TurnPhrases;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -108,7 +109,11 @@ public class BoardView {
 						TerritoryController.addSoldier(currentTerritory);
 					} 
 					else if(state == State.attack) {
-						TerritoryController.attack(currentTerritory, secondTerritory, armyToAttack);
+						if(secondTerritory != null)
+						{
+							TerritoryController.attack(currentTerritory, secondTerritory, armyToAttack);
+							secondTerritory = null;
+						}
 					}
 					else if(state == State.fortify) {
 						
@@ -127,20 +132,27 @@ public class BoardView {
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentTerritory != null) {
-					TerritoryController.changeState(false);
 					State state = TerritoryController.getCurrentState();
 					if(state == State.draft) {
+						int remainedSoldiers = TerritoryController.getRemainingSoldiers();
+						if(remainedSoldiers > 0)
+						{
+							JOptionPane.showMessageDialog(frame, "You should draft " + remainedSoldiers + "soldiers.");
+							return ;
+						}
+					}
+					else if(state == State.attack)
+					{
+						secondTerritory = null;
+					}
+					else if(state == State.fortify)
+					{
 						TerritoryController.changeCurrentPlayer();
 						TerritoryController.newTurn();
 						updatePanel();
 					}
-					else if(state == State.attack)
-					{
-					}
-					else if(state == State.fortify)
-					{
-						secondTerritory = null;
-					}
+					TerritoryController.changeState(false);
+					state = TerritoryController.getCurrentState();
 					button.setText(state.getValue());
 				}
 			}
@@ -165,7 +177,6 @@ public class BoardView {
 		
 		panel.add(lblArmy, BorderLayout.CENTER);
 		
-		
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -181,12 +192,23 @@ public class BoardView {
 							String army = JOptionPane.showInputDialog(frame,
 			                        "Enter your army size: ", null);
 							
+							if(!validateInput(army))
+							{
+								return;
+							}
+							
 							armyToAttack = Integer.parseInt(army);
 							Territory territory = TerritoryController.queryTerritory(currentTerritory);
-							while(armyToAttack > territory.getSoldierList().size())
+							while(armyToAttack >= territory.getSoldierList().size())
 							{
 								army = JOptionPane.showInputDialog(frame,
-				                        "Enter your army size-again: ", null);
+				                        "Enter your army size again: ", null);
+								
+								if(!validateInput(army))
+								{
+									return;
+								}
+								
 								armyToAttack = Integer.parseInt(army);
 							}
 							
@@ -199,7 +221,6 @@ public class BoardView {
 							updateNeighbours(currentTerritory);
 							map.get(secondTerritory).setBackground(Color.blue);
 							map.get(currentTerritory).setBackground(Color.red);
-							System.out.println("army size is : " + armyToAttack);
 						}
 					}
 				}
@@ -222,6 +243,23 @@ public class BoardView {
 		lblMap.put(name, lblArmy);
 		
 		return panel;
+	}
+	
+	private boolean validateInput(String input)
+	{
+		if(input == null)
+		{
+			secondTerritory = null;
+			return false;
+		}
+		
+		if(input.equals("") || input.trim().length()==0 || Integer.valueOf(input).intValue()==0) 
+		{
+			JOptionPane.showMessageDialog(frame, "Invalid number !");
+			secondTerritory = null;
+			return false;
+		}
+		return true;
 	}
 	
 	public void updatePanel() {

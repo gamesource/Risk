@@ -48,6 +48,11 @@ public class Player {
 		return dices;
 	}
 	
+	public void resetDices()
+	{
+		this.dices = new ArrayList<Dice>() ;
+	}
+	
 	public boolean addTerritory(Territory territory) {
 		territory.setOwner(this);
 		return territories.add(territory);

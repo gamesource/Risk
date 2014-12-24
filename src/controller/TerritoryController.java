@@ -100,6 +100,11 @@ public class TerritoryController {
 		turn_phrases.setSoldiersToDraft(current_player);
 	}
 	
+	public static int getRemainingSoldiers()
+	{
+		return turn_phrases.getSoldiersToDraftSize();
+	}
+	
 	public static boolean isNeighbour(TerritoryNames current, TerritoryNames neighbour) {
 		Territory current_territory = queryTerritory(current);
 		Territory neightbour_territory = queryTerritory(neighbour);
