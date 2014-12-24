@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import view.DiceView;
 import model.Board;
 import model.Dice;
 import model.FootMan;
@@ -93,8 +94,22 @@ public class TurnPhrases {
 			rolledNumbersOfDefender.add(dice.getValue());
 		}
 		
+		Collections.sort(rolledNumbersOfAttacker);
+		Collections.sort(rolledNumbersOfDefender);
+		
 		Collections.reverse(rolledNumbersOfAttacker);
 		Collections.reverse(rolledNumbersOfDefender);
+		
+		DiceView dice_view = new DiceView();
+		dice_view.setVisible(true);
+		
+		for(int j = 0; j < rolledNumbersOfAttacker.size(); j++) {
+			dice_view.setImage(j, getDiePath(rolledNumbersOfAttacker.get(j))); 
+		}
+		
+		for(int k = 0; k < rolledNumbersOfDefender.size(); k++) {
+			dice_view.setImage(k + 3, getDiePath(rolledNumbersOfDefender.get(k)));
+		}
 		
 		if(rolledNumbersOfDefender.size() == 1)
 		{
@@ -164,8 +179,10 @@ public class TurnPhrases {
 	
 	public void fortify(Player player,Territory oldTerritory,Territory newTerritory,Soldier soldier)
 	{
-		newTerritory.addSoldier(soldier);
-		oldTerritory.removeSoldier(soldier);
+		if(oldTerritory.getSoldierList().size() > 1) {
+			newTerritory.addSoldier(soldier);
+			oldTerritory.removeSoldier(soldier);
+		}
 	}
 	
 	public void pass(Player player)
@@ -174,5 +191,33 @@ public class TurnPhrases {
 		int playerIndex = board.getPlayers().indexOf(player);
 		int playersSize = board.getPlayers().size();
 		board.setCurrentPlayer(board.getPlayers().get((playerIndex+1) % playersSize));
+	}
+	
+	private String getDiePath(int number) {
+		String path = null;
+		
+		switch (number) {
+			case 1:
+				path = DieE.die1.getValue();
+				break;
+			case 2:
+				path = DieE.die2.getValue();
+				break;
+			case 3:
+				path = DieE.die3.getValue();
+				break;
+			case 4:
+				path = DieE.die4.getValue();
+				break;
+			case 5:
+				path = DieE.die5.getValue();
+				break;
+			case 6:
+				path = DieE.die6.getValue();
+				break;
+			default:
+				break;
+			}
+		return path;
 	}
 }
