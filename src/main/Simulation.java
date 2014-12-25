@@ -3,7 +3,9 @@ package main;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import controller.TerritoryNames;
 import view.BoardView;
+import view.CardView;
 import model.Board;
 import model.Continent;
 import model.FootMan;
@@ -53,6 +55,15 @@ public class Simulation {
 		
 		BoardView window = new BoardView();
 		window.updatePanel();
+		
+		CardView card_view = new CardView();
+		card_view.setVisible(true);
+		
+		card_view.setImage(0, TerritoryNames.afghanistan, 1);
+		card_view.setImage(1, TerritoryNames.afghanistan, 1);
+		card_view.setImage(2, TerritoryNames.afghanistan, 10);
+		card_view.setImage(3, TerritoryNames.afghanistan, 5);
+		card_view.setImage(4, null, 14);
 		
 	}
 

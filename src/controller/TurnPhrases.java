@@ -27,6 +27,13 @@ public class TurnPhrases {
 		soldiersToDraft.addAll(soldierFactory.createSoldierByContinent(player));
 	}
 	
+	public void setSoldiersToDraft(ArrayList<CardBehaviour> cards)
+	{
+		SoldierFactory soldierFactory = Board.getInstance().getSoldierFactory();
+		
+		soldiersToDraft.addAll(soldierFactory.createSoldier(cards));
+	}
+	
 	public int getSoldiersToDraftSize()
 	{
 		return soldiersToDraft.size();
