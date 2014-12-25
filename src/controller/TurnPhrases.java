@@ -111,7 +111,7 @@ public class TurnPhrases {
 			dice_view.setImage(k + 3, getDiePath(rolledNumbersOfDefender.get(k)));
 		}
 		
-		if(rolledNumbersOfDefender.size() == 1)
+		if(rolledNumbersOfDefender.size() == 1 || rolledNumbersOfAttacker.size() == 1)
 		{
 			if(rolledNumbersOfDefender.get(0) < rolledNumbersOfAttacker.get(0))
 			{

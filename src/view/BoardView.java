@@ -116,12 +116,20 @@ public class BoardView {
 						}
 					}
 					else if(state == State.fortify) {
-						TerritoryController.fortify(currentTerritory, secondTerritory, 1);
+						if(secondTerritory != null)
+						{
+							TerritoryController.fortify(currentTerritory, secondTerritory, 1);
+						}
 					}
 					
 					updatePanel();
 					map.get(currentTerritory).setBackground(Color.red);
+					
 					updateNeighbours(currentTerritory);
+					if(secondTerritory != null)
+					{
+						map.get(secondTerritory).setBackground(Color.blue);
+					}
 				}
 			}
 		});
