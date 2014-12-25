@@ -1,15 +1,12 @@
 package view;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-
-import controller.DieE;
 
 import javax.swing.JLabel;
 
@@ -18,27 +15,11 @@ import java.awt.event.MouseEvent;
 
 public class DiceView extends JFrame {
 
-	private HashMap<Integer, JLabel> map = new HashMap<Integer, JLabel>();
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DiceView frame = new DiceView();
-					frame.setVisible(true);
-					frame.setImage(1, "die1.png");
-					frame.setImage(2, "die1.png");
-					frame.setImage(3, "die1.png");
-					frame.setImage(4, "die1.png");
-					frame.setImage(5, "die1.png");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+	private HashMap<Integer, JLabel> map = new HashMap<Integer, JLabel>();
 
 	/**
 	 * Create the frame.
@@ -68,10 +49,10 @@ public class DiceView extends JFrame {
 		JLabel label = new JLabel("");
 		panel.add(label);
 		if(number < 3) {
-			panel.setBackground(Color.white);
+			panel.setBackground(Color.red);
 		}
 		else {
-			panel.setBackground(Color.red);
+			panel.setBackground(Color.white);
 		}
 		
 		map.put(number, label);

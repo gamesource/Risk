@@ -158,6 +158,7 @@ public class BoardView {
 						TerritoryController.changeCurrentPlayer();
 						TerritoryController.newTurn();
 						updatePanel();
+						secondTerritory = null;
 					}
 					TerritoryController.changeState(false);
 					state = TerritoryController.getCurrentState();
